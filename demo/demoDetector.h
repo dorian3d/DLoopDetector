@@ -114,7 +114,7 @@ void demoDetector<TVocabulary, TDetector, TDescriptor>::run
 {
   cout << "DLoopDetector Demo" << endl 
     << "Dorian Galvez-Lopez" << endl
-    << "http://webdiis.unizar.es/~dorian" << endl << endl;
+    << "http://doriangalvez.com" << endl << endl;
   
   // Set loop detector parameters
   typename TDetector::Parameters params(m_height, m_width);

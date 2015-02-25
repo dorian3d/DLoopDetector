@@ -33,24 +33,11 @@ DLoopDetector requires OpenCV and the `boost::dynamic_bitset` class in order to 
     $ sudo apt-get install libboost-dev
 
 
-To check how to use DLoopDetector, please download the demo resources. This demo includes the DLoopDetector classes, bag-of-words vocabularies with 10^6 words to use with SURF64 or BRIEF features, a small collection of images of the Bicocca 2009-02-25b dataset of the Rawseeds FP-6 project and a demo application to find loops in these images.
+To check how to use DLoopDetector, compile the demo applications. This demo includes the DLoopDetector classes, bag-of-words vocabularies with 10^6 words to use with SURF64 or BRIEF features, a small collection of images of the Bicocca 2009-02-25b dataset of the Rawseeds FP-6 project and a demo application to find loops in these images.
 
-To download the resources, run:
+Note that the demo applications require some external resources that are downloaded automatically when they are activated in CMake. The resource file is 374MB so it may take a while to download.
 
-    $ ./get_resources.sh
-
-To build the library and try the demo, just type:
-
-    $ make
-    $ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:./lib
-    $ ./demo_brief
-
-
-To install the library in your system (`/usr/local` by default), type:
-
-    $ make install
-
-You can also run demo_surf instead of demo_brief. When the demo is running, you should see a window with the current image, a window with the trajectory of the robot and the status of the detection process in the console:
+You can run either demo_surf or demo_brief. When the demo is running, you should see a window with the current image, a window with the trajectory of the robot and the status of the detection process in the console:
 ![Loop detector](http://dorian3d.github.com/other/images/dloop.png)
 
 The main functionality of the demo is written in the `demoDetector.h` class. Check it to see how to change the parameters of the loop detector.
