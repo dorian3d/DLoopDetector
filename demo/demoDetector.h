@@ -3,6 +3,7 @@
  * Date: November 2011
  * Author: Dorian Galvez-Lopez
  * Description: demo application of DLoopDetector
+ * License: see the LICENSE.txt file
  */
 
 #ifndef __DEMO_DETECTOR__
