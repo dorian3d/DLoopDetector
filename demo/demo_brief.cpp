@@ -16,8 +16,8 @@
 #include <DVision/DVision.h> // Brief
 
 // OpenCV
-#include <opencv/cv.h>
-#include <opencv/highgui.h>
+#include <opencv2/core.hpp>
+#include <opencv2/highgui.hpp>
 
 #include "demoDetector.h"
 
