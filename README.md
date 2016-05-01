@@ -28,6 +28,8 @@ If you use this software in an academic work, please cite:
 
 ## Install and usage notes
 
+DLoopDetector requires [DLib](https://github.com/dorian3d/DLib) and [DBoW2](https://github.com/dorian3d/DBoW2), which are installed automatically.
+
 DLoopDetector requires OpenCV and the `boost::dynamic_bitset` class in order to use the BRIEF version. You can install Boost by typing:
 
     $ sudo apt-get install libboost-dev
