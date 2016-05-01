@@ -72,19 +72,18 @@ endif(BUILD_DemoSURF)
 if(BUILD_DemoBRIEF OR BUILD_DemoSURF)
   option(DOWNLOAD_Demo_Resources "Download resources for demo application" ON)
   if(DOWNLOAD_Demo_Resources)
-    set(RESOURCE_FILE ${CMAKE_BINARY_DIR}/resources.tar.gz)
-    if(NOT EXISTS ${CMAKE_BINARY_DIR}/resources/)
-      if(NOT EXISTS ${RESOURCE_FILE})
-        file(DOWNLOAD http://doriangalvez.com/resources/DLoopDetector/resources.tar.gz 
-          ${RESOURCE_FILE} STATUS status SHOW_PROGRESS EXPECTED_MD5 c001da68ddaceed1de9c16aaac22ed80)
-        list(GET status 0 error_code)
-        if(${error_code})
-          message(FATAL_ERROR "Error downloading resources for demo applications")
-        endif(${error_code})
-      endif(NOT EXISTS ${RESOURCE_FILE})
-      execute_process(COMMAND ${CMAKE_COMMAND} -E tar xzf ${RESOURCE_FILE})
-      file(REMOVE ${RESOURCE_FILE})
-    endif(NOT EXISTS ${CMAKE_BINARY_DIR}/resources/)
+    set(RESOURCES_DIR ${CMAKE_CURRENT_BINARY_DIR}/resources/)
+    if(NOT EXISTS ${RESOURCES_DIR})
+        ExternalProject_Add(Resources
+          PREFIX ${CMAKE_BINARY_DIR}
+          URL http://doriangalvez.com/resources/DLoopDetector/resources.tar.gz
+          URL_MD5 c001da68ddaceed1de9c16aaac22ed80
+          SOURCE_DIR ${RESOURCES_DIR}
+          CONFIGURE_COMMAND ""
+          BUILD_COMMAND ""
+          INSTALL_COMMAND "")
+        add_custom_target(DownloadResources ${CMAKE_COMMAND} ${CMAKE_SOURCE_DIR} DEPENDS Resources)
+    endif(NOT EXISTS ${RESOURCES_DIR})
   else()
     message("Demo resources are not going to be downloaded unless the option is activated. Demo applications will not work")
   endif(DOWNLOAD_Demo_Resources)
