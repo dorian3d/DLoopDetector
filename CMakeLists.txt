@@ -44,6 +44,7 @@ macro(GetDependency name other_dependency)
       ExternalProject_Add(${name}
         PREFIX ${DEPENDENCY_DIR}
         GIT_REPOSITORY http://github.com/dorian3d/${name}
+        GIT_TAG v1.1-nonfree
         INSTALL_DIR ${DEPENDENCY_INSTALL_DIR}
         CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>
         DEPENDS ${other_dependency})
