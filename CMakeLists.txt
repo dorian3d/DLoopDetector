@@ -3,7 +3,6 @@ project(DLoopDetector)
 include(ExternalProject)
 
 option(BUILD_DemoBRIEF  "Build demo application with BRIEF features" OFF)
-option(BUILD_DemoSURF   "Build demo application with SURF features"  OFF)
 
 if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
   set(CMAKE_BUILD_TYPE Release CACHE STRING "Choose the type of build." FORCE)
@@ -44,7 +43,7 @@ macro(GetDependency name other_dependency)
       ExternalProject_Add(${name}
         PREFIX ${DEPENDENCY_DIR}
         GIT_REPOSITORY http://github.com/dorian3d/${name}
-        GIT_TAG v1.1-nonfree
+        GIT_TAG v1.1-free
         INSTALL_DIR ${DEPENDENCY_INSTALL_DIR}
         CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>
         DEPENDS ${other_dependency})
@@ -65,12 +64,12 @@ if(BUILD_DemoBRIEF)
   target_link_libraries(demo_brief ${OpenCV_LIBS} ${DLib_LIBS} ${DBoW2_LIBS})
 endif(BUILD_DemoBRIEF)
 
-if(BUILD_DemoSURF)
-  add_executable(demo_surf demo/demo_surf.cpp)
-  target_link_libraries(demo_surf ${OpenCV_LIBS} ${DLib_LIBS} ${DBoW2_LIBS})
-endif(BUILD_DemoSURF)
+#if(BUILD_DemoSURF)
+#  add_executable(demo_surf demo/demo_surf.cpp)
+#  target_link_libraries(demo_surf ${OpenCV_LIBS} ${DLib_LIBS} ${DBoW2_LIBS})
+#endif(BUILD_DemoSURF)
 
-if(BUILD_DemoBRIEF OR BUILD_DemoSURF)
+if(BUILD_DemoBRIEF)
   option(DOWNLOAD_Demo_Resources "Download resources for demo application" ON)
   if(DOWNLOAD_Demo_Resources)
     set(RESOURCES_DIR ${CMAKE_CURRENT_BINARY_DIR}/resources/)
@@ -88,7 +87,7 @@ if(BUILD_DemoBRIEF OR BUILD_DemoSURF)
   else()
     message("Demo resources are not going to be downloaded unless the option is activated. Demo applications will not work")
   endif(DOWNLOAD_Demo_Resources)
-endif(BUILD_DemoBRIEF OR BUILD_DemoSURF)
+endif(BUILD_DemoBRIEF)
 
 configure_file(src/DLoopDetector.cmake.in
   "${PROJECT_BINARY_DIR}/DLoopDetectorConfig.cmake" @ONLY)

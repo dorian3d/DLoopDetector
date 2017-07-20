@@ -47,9 +47,9 @@ public:
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
-/// @param TVocabulary vocabulary class (e.g: Surf64Vocabulary)
-/// @param TDetector detector class (e.g: Surf64LoopDetector)
-/// @param TDescriptor descriptor class (e.g: vector<float> for SURF)
+/// @param TVocabulary vocabulary class (e.g: BriefVocabulary)
+/// @param TDetector detector class (e.g: BriefLoopDetector)
+/// @param TDescriptor descriptor class (e.g: bitset for Brief)
 template<class TVocabulary, class TDetector, class TDescriptor>
 /// Class to run the demo 
 class demoDetector

@@ -39,17 +39,6 @@
   }
  </pre>
  *
- * \section license License
- * This file is licensed under a Creative Commons 
- * Attribution-NonCommercial-ShareAlike 3.0 license. 
- * This file can be freely used and users can use, download and edit this file 
- * provided that credit is attributed to the original author. No users are 
- * permitted to use this file for commercial purposes unless explicit permission
- * is given by the original author. Derivative works must be licensed using the
- * same or similar license.
- * Check http://creativecommons.org/licenses/by-nc-sa/3.0/ to obtain further
- * details.
- *
  */
 
 
@@ -63,12 +52,12 @@ namespace DLoopDetector
 
 #include "DBoW2.h"
 #include "TemplatedLoopDetector.h"
-#include "FSurf64.h"
+#include "FORB.h"
 #include "FBrief.h"
 
 /// SURF64 Loop Detector
 typedef DLoopDetector::TemplatedLoopDetector
-  <FSurf64::TDescriptor, FSurf64> Surf64LoopDetector;
+  <FORB::TDescriptor, FORB> OrbLoopDetector;
 
 /// BRIEF Loop Detector
 typedef DLoopDetector::TemplatedLoopDetector
