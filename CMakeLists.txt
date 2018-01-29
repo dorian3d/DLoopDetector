@@ -70,23 +70,17 @@ endif(BUILD_DemoBRIEF)
 #endif(BUILD_DemoSURF)
 
 if(BUILD_DemoBRIEF)
-  option(DOWNLOAD_Demo_Resources "Download resources for demo application" ON)
-  if(DOWNLOAD_Demo_Resources)
-    set(RESOURCES_DIR ${CMAKE_CURRENT_BINARY_DIR}/resources/)
-    if(NOT EXISTS ${RESOURCES_DIR})
-        ExternalProject_Add(Resources
-          PREFIX ${CMAKE_BINARY_DIR}
-          URL http://doriangalvez.com/resources/DLoopDetector/resources.tar.gz
-          URL_MD5 c001da68ddaceed1de9c16aaac22ed80
-          SOURCE_DIR ${RESOURCES_DIR}
-          CONFIGURE_COMMAND ""
-          BUILD_COMMAND ""
-          INSTALL_COMMAND "")
-        add_custom_target(DownloadResources ${CMAKE_COMMAND} ${CMAKE_SOURCE_DIR} DEPENDS Resources)
-    endif(NOT EXISTS ${RESOURCES_DIR})
-  else()
-    message("Demo resources are not going to be downloaded unless the option is activated. Demo applications will not work")
-  endif(DOWNLOAD_Demo_Resources)
+  set(RESOURCE_DIR ${CMAKE_CURRENT_BINARY_DIR}/resources/)
+  set(RESOURCE_FILE ${CMAKE_CURRENT_BINARY_DIR}/resources.tar.gz)
+  if(NOT EXISTS ${RESOURCE_DIR})
+    if(EXISTS ${RESOURCE_FILE})
+      execute_process(COMMAND ${CMAKE_COMMAND} -E tar xzf ${RESOURCE_FILE})
+    else()
+      message("To run the demo application, please download \
+https://drive.google.com/uc?export=download&id=1MpZwPjXDAUxKfSTpeCjG0PAUpaeWuo7D \
+into ${RESOURCE_FILE} and run cmake again.")
+    endif()
+  endif(NOT EXISTS ${RESOURCE_DIR})
 endif(BUILD_DemoBRIEF)
 
 configure_file(src/DLoopDetector.cmake.in
