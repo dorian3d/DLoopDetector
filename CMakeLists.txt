@@ -30,23 +30,27 @@ find_package(OpenCV REQUIRED)
 include_directories(${OpenCV_INCLUDE_DIRS})
 
 macro(GetDependency name other_dependency)
-  find_package(${name} QUIET 
+  find_package(${name} QUIET
     PATHS ${DEPENDENCY_INSTALL_DIR})
   if(${${name}_FOUND})
     message("${name} library found, using it from the system")
     include_directories(${${name}_INCLUDE_DIRS})
-    add_custom_target(${name})
+    add_custom_target(${name}_dep)
   else(${${name}_FOUND})
     message("${name} library not found in the system, it will be downloaded on build")
     option(DOWNLOAD_${name}_dependency "Download ${name} dependency" ON)
     if(${DOWNLOAD_${name}_dependency})
+      if(NOT ${other_dependency})
+        set(dependency ${other_dependency}_dep)
+      endif()
       ExternalProject_Add(${name}
         PREFIX ${DEPENDENCY_DIR}
         GIT_REPOSITORY http://github.com/dorian3d/${name}
         GIT_TAG master
         INSTALL_DIR ${DEPENDENCY_INSTALL_DIR}
         CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>
-        DEPENDS ${other_dependency})
+        DEPENDS ${dependency})
+      add_custom_target(${name}_dep ${CMAKE_COMMAND} ${CMAKE_SOURCE_DIR} DEPENDS ${name})
     else()
       message(SEND_ERROR "Please, activate DOWNLOAD_${name}_dependency option or download manually")
     endif(${DOWNLOAD_${name}_dependency})
@@ -55,12 +59,13 @@ endmacro(GetDependency)
 
 GetDependency(DLib "")
 GetDependency(DBoW2 DLib)
-add_custom_target(Dependencies ${CMAKE_COMMAND} ${CMAKE_SOURCE_DIR} DEPENDS DBoW2 DLib)
+add_custom_target(Dependencies ${CMAKE_COMMAND} ${CMAKE_SOURCE_DIR} DEPENDS DBoW2_dep DLib_dep)
 
 include_directories(include/DLoopDetector/)
 
 if(BUILD_DemoBRIEF)
   add_executable(demo_brief demo/demo_brief.cpp)
+  add_dependencies(demo_brief DLib_dep DBoW2_dep)
   target_link_libraries(demo_brief ${OpenCV_LIBS} ${DLib_LIBS} ${DBoW2_LIBS})
 endif(BUILD_DemoBRIEF)
 
