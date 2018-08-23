@@ -1,7 +1,7 @@
 DLoopDetector
 =============
 
-##Overview
+## Overview
 
 DLoopDetector is an open source C++ library to detect loops in a sequence of images collected by a mobile robot. It implements the algorithm presented in GalvezTRO12, based on a bag-of-words database created from image local descriptors, and temporal and geometrical constraints. The current implementation includes versions to work with SURF64 and BRIEF descriptors. DLoopDetector is based on the DBoW2 library, so that it can work with any other type of descriptor with little effort.
 
@@ -9,7 +9,7 @@ DLoopDetector requires OpenCV and the `boost::dynamic_bitset` class in order to 
 
 DLoopDetector has been tested on several real datasets, yielding an execution time of ~9 ms to detect a loop a in a sequence with more than 19000 images (without considering the feature extraction). When BRIEF descriptors were used, the feature extraction and the loop detection were performed in 16 ms on average.
 
-##Citing
+## Citing
 
 If you use this software in an academic work, please cite:
 
