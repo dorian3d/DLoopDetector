@@ -67,6 +67,7 @@ if(BUILD_DemoBRIEF)
   add_executable(demo_brief demo/demo_brief.cpp)
   add_dependencies(demo_brief DLib_dep DBoW2_dep)
   target_link_libraries(demo_brief ${OpenCV_LIBS} ${DLib_LIBS} ${DBoW2_LIBS})
+  set_target_properties(demo_brief PROPERTIES CXX_STANDARD 11)
 endif(BUILD_DemoBRIEF)
 
 #if(BUILD_DemoSURF)
