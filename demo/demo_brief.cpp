@@ -38,7 +38,7 @@ static const char *BRIEF_PATTERN_FILE = "./resources/brief_pattern.yml";
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
 /// This functor extracts BRIEF descriptors in the required format
-class BriefExtractor: public FeatureExtractor<FBrief::TDescriptor>
+class BriefExtractor: public FeatureExtractor<BRIEF256::bitset>
 {
 public:
   /** 
@@ -47,8 +47,8 @@ public:
    * @param keys keypoints extracted
    * @param descriptors descriptors extracted
    */
-  virtual void operator()(const cv::Mat &im, 
-    vector<cv::KeyPoint> &keys, vector<BRIEF::bitset> &descriptors) const;
+  void operator()(const cv::Mat &im, 
+    vector<cv::KeyPoint> &keys, vector<BRIEF256::bitset> &descriptors) const override;
 
   /**
    * Creates the brief extractor with the given pattern file
@@ -59,7 +59,7 @@ public:
 private:
 
   /// BRIEF descriptor extractor
-  DVision::BRIEF m_brief;
+  BRIEF256 m_brief;
 };
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
@@ -67,7 +67,7 @@ private:
 int main()
 {
   // prepares the demo
-  demoDetector<BriefVocabulary, BriefLoopDetector, FBrief::TDescriptor> 
+  demoDetector<BriefVocabulary, BriefLoopDetector, FBrief::TDescriptor>
     demo(VOC_FILE, IMAGE_DIR, POSE_FILE, IMAGE_W, IMAGE_H);
   
   try 
@@ -109,7 +109,7 @@ BriefExtractor::BriefExtractor(const std::string &pattern_file)
 // ----------------------------------------------------------------------------
 
 void BriefExtractor::operator() (const cv::Mat &im, 
-  vector<cv::KeyPoint> &keys, vector<BRIEF::bitset> &descriptors) const
+  vector<cv::KeyPoint> &keys, vector<BRIEF256::bitset> &descriptors) const
 {
   // extract FAST keypoints with opencv
   const int fast_th = 20; // corner detector response threshold
