@@ -64,11 +64,15 @@ private:
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
-int main()
+int main(int argc, char* argv[])
 {
+  bool show = true;
+  if (argc > 1 && std::string(argv[1]) == "-noshow")
+    show = false;
+
   // prepares the demo
   demoDetector<BriefVocabulary, BriefLoopDetector, FBrief::TDescriptor>
-    demo(VOC_FILE, IMAGE_DIR, POSE_FILE, IMAGE_W, IMAGE_H);
+    demo(VOC_FILE, IMAGE_DIR, POSE_FILE, IMAGE_W, IMAGE_H, show);
   
   try 
   {
