@@ -21,6 +21,10 @@ set(HDRS
 
 set(DEPENDENCY_DIR ${CMAKE_CURRENT_BINARY_DIR}/dependencies)
 set(DEPENDENCY_INSTALL_DIR ${DEPENDENCY_DIR}/install)
+set(DEPENDENCY_CMAKE_ARGS -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE})
+if(DEFINED OpenCV_DIR)
+    set(DEPENDENCY_CMAKE_ARGS ${DEPENDENCY_CMAKE_ARGS} -DOpenCV_DIR=${OpenCV_DIR})
+endif()
 
 find_package(OpenCV REQUIRED)
 include_directories(${OpenCV_INCLUDE_DIRS})
@@ -44,7 +48,7 @@ macro(GetDependency name other_dependency)
         GIT_REPOSITORY http://github.com/dorian3d/${name}
         GIT_TAG master
         INSTALL_DIR ${DEPENDENCY_INSTALL_DIR}
-        CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>
+        CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR> ${DEPENDENCY_CMAKE_ARGS}
         DEPENDS ${dependency})
       add_custom_target(${name}_dep ${CMAKE_COMMAND} ${CMAKE_SOURCE_DIR} DEPENDS ${name})
     else()
