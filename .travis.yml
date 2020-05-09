@@ -19,7 +19,7 @@ before_script:
     - pushd opencv
     - mkdir -p build
     - cd build
-    - cmake .. -DBUILD_LIST=core,imgproc,imgcodecs,calib3d,highgui -DBUILD_EXAMPLES=OFF -DCMAKE_INSTALL_PREFIX=../install
+    - cmake .. -DBUILD_LIST=core,imgproc,imgcodecs,calib3d,highgui,features2d,flann -DBUILD_EXAMPLES=OFF -DCMAKE_INSTALL_PREFIX=../install
     - cmake --build . --parallel 8 --target install --config Release
     - popd
 script:
