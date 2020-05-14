@@ -64,7 +64,7 @@ public:
    * @param height image height
    */
   demoDetector(const std::string &vocfile, const std::string &imagedir,
-    const std::string &posefile, int width, int height);
+    const std::string &posefile, int width, int height, bool show);
     
   ~demoDetector(){}
 
@@ -94,6 +94,7 @@ protected:
   std::string m_posefile;
   int m_width;
   int m_height;
+  bool m_show;
 };
 
 // ---------------------------------------------------------------------------
@@ -101,9 +102,9 @@ protected:
 template<class TVocabulary, class TDetector, class TDescriptor>
 demoDetector<TVocabulary, TDetector, TDescriptor>::demoDetector
   (const std::string &vocfile, const std::string &imagedir,
-  const std::string &posefile, int width, int height)
+  const std::string &posefile, int width, int height, bool show)
   : m_vocfile(vocfile), m_imagedir(imagedir), m_posefile(posefile),
-    m_width(width), m_height(height)
+    m_width(width), m_height(height), m_show(show)
 {
 }
 
@@ -208,7 +209,8 @@ void demoDetector<TVocabulary, TDetector, TDescriptor>::run
     cv::Mat im = cv::imread(filenames[i].c_str(), 0); // grey scale
     
     // show image
-    DUtilsCV::GUI::showImage(im, true, &win, 10);
+    if(m_show)
+      DUtilsCV::GUI::showImage(im, true, &win, 10);
     
     // get features
     profiler.profile("features");
@@ -275,7 +277,7 @@ void demoDetector<TVocabulary, TDetector, TDescriptor>::run
     cout << endl;
     
     // show trajectory
-    if(i > 0)
+    if(m_show && i > 0)
     {
       if(result.detection())
         implot.line(-xs[i-1], ys[i-1], -xs[i], ys[i], loop_style);
@@ -301,8 +303,10 @@ void demoDetector<TVocabulary, TDetector, TDescriptor>::run
     << " - Loop detection: " << profiler.getMeanTime("detection") * 1e3
     << " ms/image" << endl;
 
-  cout << endl << "Press a key to finish..." << endl;
-  DUtilsCV::GUI::showImage(implot.getImage(), true, &winplot, 0);
+  if(m_show) {
+    cout << endl << "Press a key to finish..." << endl;
+    DUtilsCV::GUI::showImage(implot.getImage(), true, &winplot, 0);
+  }
 }
 
 // ---------------------------------------------------------------------------

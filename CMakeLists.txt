@@ -11,13 +11,9 @@ if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
 endif()
 
 if(MSVC)
-  if(CMAKE_CXX_FLAGS MATCHES "/W[0-4]")
-    string(REGEX REPLACE "/W[0-4]" "/W4" CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
-  else()
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /W4")
-  endif()
-elseif(CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX)
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -pedantic")
+  add_compile_options(/W4)
+else()
+  add_compile_options(-Wall -Wextra -Wpedantic)
 endif()
 
 set(HDRS
@@ -25,6 +21,10 @@ set(HDRS
 
 set(DEPENDENCY_DIR ${CMAKE_CURRENT_BINARY_DIR}/dependencies)
 set(DEPENDENCY_INSTALL_DIR ${DEPENDENCY_DIR}/install)
+set(DEPENDENCY_CMAKE_ARGS -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE})
+if(DEFINED OpenCV_DIR)
+    set(DEPENDENCY_CMAKE_ARGS ${DEPENDENCY_CMAKE_ARGS} -DOpenCV_DIR=${OpenCV_DIR})
+endif()
 
 find_package(OpenCV REQUIRED)
 include_directories(${OpenCV_INCLUDE_DIRS})
@@ -48,7 +48,7 @@ macro(GetDependency name other_dependency)
         GIT_REPOSITORY http://github.com/dorian3d/${name}
         GIT_TAG master
         INSTALL_DIR ${DEPENDENCY_INSTALL_DIR}
-        CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>
+        CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR> ${DEPENDENCY_CMAKE_ARGS}
         DEPENDS ${dependency})
       add_custom_target(${name}_dep ${CMAKE_COMMAND} ${CMAKE_SOURCE_DIR} DEPENDS ${name})
     else()
@@ -67,6 +67,8 @@ if(BUILD_DemoBRIEF)
   add_executable(demo_brief demo/demo_brief.cpp)
   add_dependencies(demo_brief DLib_dep DBoW2_dep)
   target_link_libraries(demo_brief ${OpenCV_LIBS} ${DLib_LIBS} ${DBoW2_LIBS})
+  target_include_directories(demo_brief PUBLIC ${DLib_INCLUDE_DIRS} ${DBoW2_INCLUDE_DIRS})
+  set_target_properties(demo_brief PROPERTIES CXX_STANDARD 11)
 endif(BUILD_DemoBRIEF)
 
 #if(BUILD_DemoSURF)

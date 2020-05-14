@@ -1167,7 +1167,7 @@ template<class TDescriptor, class F>
 bool TemplatedLoopDetector<TDescriptor, F>::isGeometricallyConsistent_Flann
   (EntryId old_entry,
   const std::vector<cv::KeyPoint> &keys, 
-  const std::vector<TDescriptor> &descriptors,
+  const std::vector<TDescriptor> &,
   cv::FlannBasedMatcher &flann_structure) const
 {
   vector<unsigned int> i_old, i_cur; // indices of correspondences
